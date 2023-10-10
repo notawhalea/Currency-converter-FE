@@ -1,15 +1,38 @@
 import "./App.css";
 import Currency from "./components/Currency/Currency";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import axios from "axios";
 
 function App() {
   const [currency, setCurrency] = useState([
-    { title: "USD", id: 0 },
-    { title: "EUR", id: 1 },
-    { title: "BYN", id: 2 },
-    { title: "RUB", id: 3 },
+    { code: "USD", id: 0 },
+    { code: "EUR", id: 1 },
+    { code: "BYN", id: 2 },
+    { code: "RUB", id: 3 },
   ]);
+  let requestHandler = "";
+  for (let i = 0; i < currency.length; i++) {
+    requestHandler = requestHandler + currency[i].code + "%2C";
+  }
+  requestHandler = requestHandler.substring(0, requestHandler.length - 3);
+
+  useEffect(() => {
+    async function getCurrencies() {
+      try {
+        const response = await axios.post("http://localhost:5000/currency", {
+          requestHandler,
+        });
+        const res = Object.values(response?.data?.data);
+        console.log(res);
+        setCurrency(res);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    getCurrencies();
+  }, []);
+
   const addCurrencyHandler = (text) => {
     const newCurrency = {
       title: text,
@@ -30,7 +53,6 @@ function App() {
             <Currency
               key={currency.id}
               currency={currency}
-              currName={currency.title}
               deleteCurrency={deleteCurrencyHandler}
             />
           ))}

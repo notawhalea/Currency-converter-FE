@@ -10,7 +10,7 @@
   margin: 10% 25%;
   border-radius: 20px;
   width: 50%;
-  height: 600px;
+  height: auto;
   background-image: url("assets/pexels.jpg");
   padding: 25px;
 }
