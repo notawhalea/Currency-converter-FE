@@ -1,8 +1,8 @@
 import "./App.css";
 import Currency from "./components/Currency/Currency";
-import { useEffect, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
+import CurrencyForm from "./components/AddCurrency/CurrencyForm";
 
 function App() {
   const [currency, setCurrency] = useState([
@@ -11,18 +11,30 @@ function App() {
     { code: "BYN", id: 2 },
     { code: "RUB", id: 3 },
   ]);
-  let requestHandler = "";
-  for (let i = 0; i < currency.length; i++) {
-    requestHandler = requestHandler + currency[i].code + "%2C";
+  function usePrevious(value) {
+    const ref = useRef();
+    useEffect(() => {
+      ref.current = value;
+    }, [value]);
+    return ref.current;
   }
-  requestHandler = requestHandler.substring(0, requestHandler.length - 3);
 
+  const prevData = usePrevious(currency);
+  let requestHandler = "";
   useEffect(() => {
+    for (let i = 0; i < currency.length; i++) {
+      requestHandler = requestHandler + currency[i].code + "%2C";
+    }
+    requestHandler = requestHandler.substring(0, requestHandler.length - 3);
+    console.log("RQ", requestHandler);
     async function getCurrencies() {
       try {
-        const response = await axios.post("http://localhost:5000/currency", {
-          requestHandler,
-        });
+        const response = await axios.post(
+          "https://currency-converter-be.vercel.app/currency",
+          {
+            requestHandler,
+          },
+        );
         const res = Object.values(response?.data?.data);
         console.log(res);
         setCurrency(res);
@@ -30,18 +42,21 @@ function App() {
         console.error(error);
       }
     }
-    getCurrencies();
-  }, []);
+    if (currency !== prevData) {
+      getCurrencies();
+    }
+  }, [prevData]);
+  console.log(currency);
 
   const addCurrencyHandler = (text) => {
+    console.log(text);
     const newCurrency = {
-      title: text,
-      id: uuidv4(),
+      code: text,
     };
     setCurrency([...currency, newCurrency]);
   };
-  const deleteCurrencyHandler = (id) => {
-    setCurrency(currency.filter((currency) => currency.id !== id));
+  const deleteCurrencyHandler = (code) => {
+    setCurrency(currency.filter((currency) => currency.code !== code));
   };
   return (
     <div className="main">
@@ -56,7 +71,7 @@ function App() {
               deleteCurrency={deleteCurrencyHandler}
             />
           ))}
-          <button>Добавить валюту</button>
+          <CurrencyForm addCurrency={addCurrencyHandler} />
         </div>
       </div>
     </div>
