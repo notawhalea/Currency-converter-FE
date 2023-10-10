@@ -1,0 +1,19 @@
+.inputContainer{
+  width: 100%;
+  padding: 10px 25px;
+  gap: 10px;
+  display: flex;
+  justify-content: center;
+}
+.currencyTitle{
+  font-size: 24px;
+  color: white;
+  font-weight: bold;
+}
+input{
+  width: 44%;
+}
+.deleteButton{
+  width: 100px;
+  margin: 0;
+}

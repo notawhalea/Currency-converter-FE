@@ -1,0 +1,22 @@
+.currencyFormContainer {
+  margin-bottom: 20px;
+  padding: 0 15%;
+  display: flex;
+  justify-content: space-around;
+  gap: 25px;
+  width: 100%;
+}
+
+.currencyFormContainer form {
+  display: flex;
+  justify-content: space-between;
+  gap: 10%
+}
+button {
+  width: 100px;
+  margin: 0;
+}
+.currencyFormContainer input {
+  width: 100%;
+  padding-right: 5px;
+}

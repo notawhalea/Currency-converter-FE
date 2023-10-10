@@ -1,0 +1,50 @@
+#root {
+  margin: 0 auto;
+}
+.main {
+  max-width: 1920px;
+  width: 100%;
+  background-color: white;
+}
+.container{
+  margin: 10% 25%;
+  border-radius: 20px;
+  width: 50%;
+  height: auto;
+  background-image: url("assets/pexels.jpg");
+  padding: 25px;
+}
+.mainTitle{
+  font-size: 35px;
+  color: white;
+  font-weight: bold;
+}
+.mainSubtitle{
+  font-size: 24px;
+  color: white;
+  font-weight: bold;
+  padding: 10px 0;
+}
+.inputsContainer{
+
+}
+.inputContainer{
+  width: 100%;
+  padding: 10px 25px;
+  gap: 10px;
+  display: flex;
+  justify-content: center;
+}
+.currencyTitle{
+  font-size: 24px;
+  color: white;
+  font-weight: bold;
+}
+button{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 60%;
+  margin: 2% 20%;
+}
